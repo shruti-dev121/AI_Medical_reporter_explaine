@@ -1,0 +1,810 @@
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClarityCare | Medical Report Explainer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --navy: #172b3a;
+        --teal: #176b61;
+        --teal-light: #e7f3ef;
+        --cream: #f7f7f2;
+        --white: #ffffff;
+        --muted: #71808a;
+        --border: #e5e9e5;
+        --red: #b84b45;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--navy);
+        font-family: "DM Sans", sans-serif;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+
+      .sidebar {
+        width: 245px;
+        background: #fff;
+        border-right: 1px solid var(--border);
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin: 0 0 45px 5px;
+      }
+
+      .brand-icon {
+        background: var(--teal);
+        color: white;
+        width: 39px;
+        height: 39px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 23px;
+        font-weight: 700;
+      }
+
+      .brand-name {
+        font-family: "Manrope", sans-serif;
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: -0.7px;
+      }
+
+      .brand-name span {
+        color: var(--teal);
+      }
+
+      .nav-label {
+        margin: 0 0 12px 10px;
+        color: #96a09f;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 12px;
+        margin-bottom: 7px;
+        color: #66767d;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .nav-item.active {
+        background: var(--teal-light);
+        color: var(--teal);
+      }
+
+      .nav-icon {
+        font-size: 17px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .sidebar-bottom {
+        margin-top: auto;
+      }
+
+      .privacy-card {
+        padding: 17px;
+        background: #f5f8f5;
+        border: 1px solid var(--border);
+        border-radius: 13px;
+      }
+
+      .privacy-icon {
+        color: var(--teal);
+        font-size: 21px;
+      }
+
+      .privacy-card h4 {
+        margin: 10px 0 5px;
+        font-size: 13px;
+      }
+
+      .privacy-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.7;
+      }
+
+      /* Main content */
+
+      .main {
+        flex: 1;
+        min-width: 0;
+        padding: 34px 5%;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 52px;
+      }
+
+      .breadcrumb {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .breadcrumb strong {
+        color: var(--navy);
+      }
+
+      .status-pill {
+        border: 1px solid #dce8df;
+        background: #fff;
+        color: var(--teal);
+        border-radius: 30px;
+        padding: 9px 13px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .hero {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #eaf2e9;
+        color: var(--teal);
+        border-radius: 30px;
+        padding: 7px 12px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+
+      .eyebrow-dot {
+        width: 7px;
+        height: 7px;
+        background: #5e9b75;
+        border-radius: 50%;
+      }
+
+      h1 {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(34px, 4.2vw, 53px);
+        line-height: 1.14;
+        letter-spacing: -2px;
+        margin: 20px 0 14px;
+        font-weight: 800;
+      }
+
+      h1 span {
+        color: var(--teal);
+      }
+
+      .intro {
+        max-width: 550px;
+        color: #6c7a80;
+        font-size: 14px;
+        line-height: 1.9;
+        margin-bottom: 31px;
+      }
+
+      /* Upload card */
+
+      .upload-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 19px;
+        padding: 28px;
+        box-shadow: 0 12px 35px #203b2c08;
+      }
+
+      .upload-area {
+        border: 1.5px dashed #bdcec5;
+        border-radius: 14px;
+        background: #fbfcfa;
+        padding: 35px 20px;
+        text-align: center;
+        transition: 0.2s ease;
+      }
+
+      .upload-area:focus-within,
+      .upload-area:hover {
+        border-color: var(--teal);
+        background: #f5faf6;
+      }
+
+      .upload-symbol {
+        width: 59px;
+        height: 59px;
+        margin: 0 auto 16px;
+        background: var(--teal-light);
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        color: var(--teal);
+        font-size: 27px;
+      }
+
+      .upload-area h2 {
+        margin: 0 0 9px;
+        font-size: 17px;
+      }
+
+      .upload-area p {
+        margin: 0 0 17px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .file-input {
+        display: block;
+        width: 100%;
+        max-width: 340px;
+        margin: 0 auto;
+        color: #65746e;
+        font-size: 12px;
+      }
+
+      .file-input::file-selector-button {
+        padding: 10px 14px;
+        border: 1px solid #dce5dd;
+        border-radius: 8px;
+        background: white;
+        color: var(--navy);
+        cursor: pointer;
+        margin-right: 10px;
+        font-weight: 600;
+      }
+
+      .primary-button {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+        padding: 15px 18px;
+        border: none;
+        border-radius: 10px;
+        background: var(--teal);
+        color: white;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+
+      .primary-button:hover {
+        background: #10564e;
+        transform: translateY(-1px);
+      }
+
+      .primary-button:disabled {
+        opacity: 0.7;
+        cursor: wait;
+        transform: none;
+      }
+
+      .upload-footnote {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 11px;
+        margin-top: 17px;
+      }
+
+      /* Features */
+
+      .section-label {
+        margin: 33px 0 15px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #7b8886;
+        letter-spacing: 1.1px;
+        text-transform: uppercase;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 13px;
+      }
+
+      .feature {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 18px 15px;
+      }
+
+      .feature-icon {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      .feature h3 {
+        margin: 0 0 7px;
+        font-size: 12px;
+      }
+
+      .feature p {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.7;
+        margin: 0;
+      }
+
+      /* Result and errors */
+
+      .result-card {
+        margin-top: 28px;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 17px;
+        padding: 27px;
+        overflow-wrap: anywhere;
+      }
+
+      .result-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .result-header .upload-symbol {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        margin: 0;
+        flex-shrink: 0;
+        font-size: 21px;
+      }
+
+      .result-header h2 {
+        margin: 0 0 5px;
+        font-size: 19px;
+      }
+
+      .result-header p {
+        color: var(--muted);
+        font-size: 11px;
+        margin: 0;
+      }
+
+      .result-content {
+        line-height: 1.8;
+        color: #45565e;
+        font-size: 13px;
+      }
+
+      .result-content h1,
+      .result-content h2,
+      .result-content h3,
+      .result-content h4 {
+        font-family: "DM Sans", sans-serif;
+        color: var(--navy);
+        font-size: 16px;
+        letter-spacing: 0;
+        margin: 22px 0 10px;
+      }
+
+      .result-content p {
+        margin: 10px 0;
+      }
+
+      .result-content ul,
+      .result-content ol {
+        padding-left: 23px;
+      }
+
+      .result-content li {
+        padding-left: 4px;
+        margin-bottom: 7px;
+      }
+
+      .result-content strong {
+        color: #213d43;
+      }
+
+      .error-message {
+        margin-top: 20px;
+        background: #fff2f0;
+        color: var(--red);
+        border: 1px solid #f0d4d0;
+        border-radius: 10px;
+        padding: 14px;
+        font-size: 13px;
+      }
+
+      details {
+        margin-top: 18px;
+        border-top: 1px solid var(--border);
+        padding-top: 15px;
+      }
+
+      summary {
+        color: var(--teal);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        color: #58666c;
+        font:
+          12px/1.8 "DM Sans",
+          sans-serif;
+      }
+
+      .disclaimer {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f8f8f2;
+        border-radius: 10px;
+        color: #69766f;
+        font-size: 11px;
+        line-height: 1.8;
+      }
+
+      .footer {
+        max-width: 760px;
+        margin: 30px auto 0;
+        color: #929d99;
+        font-size: 10px;
+        line-height: 1.8;
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .sidebar {
+          width: 205px;
+        }
+
+        .main {
+          padding: 28px 4%;
+        }
+
+        .topbar {
+          margin-bottom: 38px;
+        }
+      }
+
+      @media (max-width: 650px) {
+        .layout {
+          display: block;
+        }
+
+        .sidebar {
+          width: 100%;
+          padding: 15px 18px;
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+          margin: 0;
+        }
+
+        .sidebar nav,
+        .sidebar-bottom {
+          display: none;
+        }
+
+        .main {
+          padding: 23px 17px;
+        }
+
+        .topbar {
+          margin-bottom: 30px;
+          align-items: flex-start;
+        }
+
+        .status-pill {
+          font-size: 9px;
+          padding: 7px 9px;
+        }
+
+        h1 {
+          letter-spacing: -1.3px;
+        }
+
+        .upload-card {
+          padding: 15px;
+        }
+
+        .upload-area {
+          padding: 28px 12px;
+        }
+
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .feature {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .feature-icon {
+          margin: 0;
+        }
+
+        .feature h3 {
+          margin-top: 2px;
+        }
+
+        .result-card {
+          padding: 18px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-icon">✳</div>
+          <div class="brand-name">Clarity<span>Care</span></div>
+        </div>
+
+        <nav>
+          <p class="nav-label">WORKSPACE</p>
+
+          <a href="/" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            Overview
+          </a>
+
+          <a href="/" class="nav-item active">
+            <span class="nav-icon">＋</span>
+            New analysis
+          </a>
+
+          <a href="#how-it-works" class="nav-item">
+            <span class="nav-icon">◷</span>
+            How it works
+          </a>
+        </nav>
+
+        <a href="{% url 'report_history' %}" class="nav-item">
+          <span class="nav-icon">◷</span>
+          <span>Previous Analyses</span>
+        </a>
+
+        <div class="sidebar-bottom">
+          <div class="privacy-card">
+            <div class="privacy-icon">♧</div>
+            <h4>Your health, treated carefully</h4>
+            <p>
+              Use fictional reports for this demo. Your uploaded report is
+              processed for this request and is not saved to a history database
+              by this app.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="breadcrumb">
+            Workspace &nbsp;/&nbsp; <strong>New analysis</strong>
+          </div>
+
+          <div class="status-pill">✦ AI-assisted · Informational only</div>
+        </div>
+
+        <section class="hero">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            YOUR PERSONAL REPORT COMPANION
+          </div>
+
+          <h1>
+            Understand your health,<br />
+            <span>more clearly.</span>
+          </h1>
+
+          <p class="intro">
+            Medical reports can feel complicated. Upload a report to explore its
+            wording, understand key terms, and prepare thoughtful questions for
+            your next doctor visit.
+          </p>
+
+          <div class="upload-card">
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+              {% csrf_token %}
+
+              <div class="upload-area">
+                <div class="upload-symbol">⇧</div>
+
+                <h2>Start with your report</h2>
+
+                <p>Choose a text-based PDF or TXT file (maximum 5 MB)</p>
+
+                <input
+                  type="file"
+                  name="report"
+                  id="reportFile"
+                  class="file-input"
+                  accept=".pdf,.txt,application/pdf,text/plain"
+                  required
+                />
+              </div>
+
+              {% for error in form.report.errors %}
+              <div class="error-message">{{ error }}</div>
+              {% endfor %}
+
+              <button type="submit" class="primary-button" id="submitButton">
+                Explain my report &nbsp; →
+              </button>
+
+              <div class="upload-footnote">
+                ♧ &nbsp; For this demo, use a fictional sample report.
+              </div>
+            </form>
+
+            {% if error %}
+            <div class="error-message">{{ error }}</div>
+            {% endif %}
+          </div>
+
+          <p class="section-label" id="how-it-works">
+            Designed to make reports easier to understand
+          </p>
+
+          <div class="feature-grid">
+            <div class="feature">
+              <div class="feature-icon">◉</div>
+              <div>
+                <h3>Simple summaries</h3>
+                <p>Turn complex report wording into clearer language.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">⌁</div>
+              <div>
+                <h3>Understand key terms</h3>
+                <p>Learn what medical terms and reported values mean.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">↗</div>
+              <div>
+                <h3>Ask better questions</h3>
+                <p>Prepare questions to discuss with your doctor.</p>
+              </div>
+            </div>
+          </div>
+
+          {% if explanation %}
+          <section class="result-card" id="results">
+            <div class="result-header">
+              <div class="upload-symbol">✳</div>
+              <div>
+                <h2>Your report, explained</h2>
+                <p>AI-generated information · Please review carefully</p>
+              </div>
+            </div>
+
+            <div class="result-content">{{ explanation|safe }}</div>
+
+            <div class="disclaimer">
+              <strong>Important:</strong>
+              This explanation is for general informational purposes only. It
+              does not diagnose a condition or replace professional medical
+              advice. Discuss your results with a qualified healthcare
+              professional.
+            </div>
+
+            {% if extracted_text %}
+            <details>
+              <summary>View extracted report text</summary>
+              <pre>{{ extracted_text }}</pre>
+            </details>
+            {% endif %}
+          </section>
+          {% endif %}
+
+          <div class="footer">
+            ClarityCare is a demonstration project, not a medical service.
+            AI-generated explanations may be inaccurate. Always verify medical
+            information with a qualified healthcare professional.
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const form = document.getElementById("uploadForm");
+      const fileInput = document.getElementById("reportFile");
+      const submitButton = document.getElementById("submitButton");
+
+      fileInput.addEventListener("change", function () {
+          const file = this.files[0];
+
+          if (!file) return;
+
+          const allowedExtensions = [".pdf", ".txt"];
+          const filename = file.name.toLowerCase();
+          const validExtension = allowedExtensions.some(
+              extension => filename.endsWith(extension)
+          );
+
+          if (!validExtension) {
+              alert("Please choose a PDF or TXT file.");
+              this.value = "";
+              return;
+          }
+
+          if (file.size > 5 * 1024 * 1024) {
+              alert("The file must be smaller than 5 MB.");
+              this.value = "";
+          }
+      });
+
+      form.addEventListener("submit", function () {
+          if (fileInput.files.length > 0) {
+              submitButton.disabled = true;
+              submitButton.textContent = "Analyzing your report...";
+          }
+      });
+
+      {% if explanation %}
+          document.getElementById("results").scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+          });
+      {% endif %}
+    </script>
+  </body>
+</html>
+```

@@ -1,0 +1,182 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Previous Analyses | ClarityCare</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px 24px;
+        background: #f7f7f1;
+        color: #243a36;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+      }
+
+      .top-link {
+        display: inline-block;
+        margin-bottom: 30px;
+        color: #167d6a;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .eyebrow {
+        color: #167d6a;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 8px 0;
+        font-size: clamp(28px, 5vw, 40px);
+      }
+
+      .subtitle {
+        color: #6c7b76;
+        margin-bottom: 30px;
+      }
+
+      .report-card {
+        background: #fff;
+        border: 1px solid #e3e9e4;
+        border-radius: 16px;
+        padding: 22px;
+        margin-bottom: 16px;
+        box-shadow: 0 4px 18px rgba(36, 58, 54, 0.04);
+      }
+
+      .report-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      h2 {
+        font-size: 17px;
+        margin: 0 0 8px;
+        overflow-wrap: anywhere;
+      }
+
+      .date {
+        color: #7b8983;
+        font-size: 13px;
+      }
+
+      details {
+        border-top: 1px solid #edf0ec;
+        margin-top: 18px;
+        padding-top: 16px;
+      }
+
+      summary {
+        color: #167d6a;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .explanation {
+        margin-top: 16px;
+        line-height: 1.75;
+        overflow-wrap: anywhere;
+      }
+
+      .explanation img {
+        max-width: 100%;
+      }
+
+      .empty-state {
+        text-align: center;
+        background: white;
+        padding: 45px 20px;
+        border: 1px solid #e3e9e4;
+        border-radius: 16px;
+      }
+
+      .empty-state p {
+        color: #6c7b76;
+      }
+
+      .upload-link {
+        display: inline-block;
+        background: #167d6a;
+        color: white;
+        padding: 11px 18px;
+        border-radius: 9px;
+        text-decoration: none;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 25px 16px;
+        }
+        .report-card {
+          padding: 17px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <a class="top-link" href="{% url 'upload_report' %}">
+        ← Back to ClarityCare
+      </a>
+
+      <p class="eyebrow">Your activity</p>
+      <h1>Previous Analyses</h1>
+      <p class="subtitle">
+        Revisit explanations generated from your uploaded reports.
+      </p>
+
+      {% for report in reports %}
+      <article class="report-card">
+        <div class="report-header">
+          <div>
+            <h2>{{ report.filename }}</h2>
+            <div class="date">
+              Analyzed {{ report.created_at|date:"d M Y, h:i A" }}
+            </div>
+          </div>
+        </div>
+
+        <details>
+          <summary>View AI explanation</summary>
+          <div class="explanation">{{ report.explanation|safe }}</div>
+        </details>
+      </article>
+      {% empty %}
+      <section class="empty-state">
+        <h2>No analyses yet</h2>
+        <p>Upload a sample report to generate your first explanation.</p>
+        <a class="upload-link" href="{% url 'upload_report' %}">
+          Analyze a report
+        </a>
+      </section>
+      {% endfor %}
+    </main>
+  </body>
+</html>
